@@ -1,0 +1,42 @@
+name: Generate Diagrams
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-diagrams:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"  # Use Python 3.12
+
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Install Dependencies
+        run: poetry install
+
+      - name: Generate Diagrams
+        run: poetry run generate
+
+      - name: Commit and Push Diagrams
+        if: ${{ success() }}  # Only run this step if previous steps are successful
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add output_diagrams
+          git commit -m "Auto-generate diagrams [skip ci]" || echo "No changes to commit"
+          git push
