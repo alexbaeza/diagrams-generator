@@ -50,7 +50,7 @@ your machine.
 ### Install the dependencies:
 
 ```bash
-   poetry install
+poetry install
 ```
 
 ## Usage
