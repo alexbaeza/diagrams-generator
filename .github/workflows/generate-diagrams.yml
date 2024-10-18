@@ -27,9 +27,11 @@ jobs:
       - name: Install Dependencies
         run: poetry install
 
-      - name: Clean output folder
+      - name: Clean output folder (if exists)
         run: |
-          rm -rf output_diagrams/*
+          if [ -d "output_diagrams" ]; then
+            rm -rf output_diagrams/*
+          fi
 
       - name: Generate Diagrams
         run: poetry run generate
