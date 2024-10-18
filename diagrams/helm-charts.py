@@ -7,7 +7,7 @@ from diagrams.onprem.client import User
 from diagrams.aws.security import SecretsManager
 from diagram_generator.utils import get_output_filename
 
-with Diagram("Helm Charts and Kubernetes Components", direction="LR", filename=get_output_filename(__file__), outformat=["jpg", "png", "dot", "pdf"], show=False):
+with Diagram("Helm Charts and Kubernetes Components", direction="LR", filename=get_output_filename(__file__), show=False):
     # User interacting with the system
     user = User("User")
 
